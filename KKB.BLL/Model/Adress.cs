@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace KKB.BLL.Model
+{
+    internal class Adress
+    {
+        public int id { get; set; }
+        public string country { get; set; }
+        public string city { get; set; }
+        public string region { get; set; }
+        public string street { get; set; }
+        public string home { get; set; }
+    }
+}
