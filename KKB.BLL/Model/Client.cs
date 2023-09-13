@@ -23,7 +23,7 @@ namespace KKB.BLL.Model
         }
         public int number { get; set; }
         public string email { get; set; }
-                public string password { get; set; }
+        public string password { get; set; }
         public int gender { get; set; }
         public Adress[] Adress { get; set; }
         public Account[] account { get; set; }
