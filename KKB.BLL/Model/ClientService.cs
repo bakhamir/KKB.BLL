@@ -12,6 +12,11 @@ namespace KKB.BLL.Model
         {
             return true;
         }
-        public void authoriseClient(string mail,string password)
+        public void authoriseClient(string mail,string password){
+            return null;
+        }
+        public void UpdateClient(Client client){
+            
+        }
     }
 }
