@@ -1,3 +1,4 @@
+﻿using KKB.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +7,29 @@ using System.Threading.Tasks;
 
 namespace KKB.BLL.Model
 {
-    internal class ClientService
+    public class ClientService
     {
-                public bool registerClient(Client client)
+        private ClientRepository repo;
+        public ClientService(string connectionString)
         {
+            repo = new ClientRepository(connectionString);
+        }
+        public bool registerClient(Client client)
+        {
+            //if (repo.getClientData(client.email,client.password) == null)
+            //{
+                
+            //}
+            repo.createClient(client);
+
             return true;
         }
-        public void authoriseClient(string mail,string password){
-            return null;
+        public Client authoriseClient(string mail, string password)
+        {
+            return repo.getClientData(mail,password);
         }
-        public bool UpdateClient(Client client){
+        public bool UpdateClient(Client client)
+        {
             return true;
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKB.BLL.Model
+namespace KKB.DAL.Model
 {
-    internal class Client
+    public class Client
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -21,7 +21,7 @@ namespace KKB.BLL.Model
                 return DateTime.Now.Year - created.Year;
             }
         }
-        public int number { get; set; }
+        public string number { get; set; }
         public string email { get; set; }
         public string password { get; set; }
         public int gender { get; set; }

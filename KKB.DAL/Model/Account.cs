@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKB.BLL.Model
+namespace KKB.DAL.Model
 {
-    internal class Account
+    public class Account
     {
         public int Id { get; set; }
         public DateTime createDate { get; set; }

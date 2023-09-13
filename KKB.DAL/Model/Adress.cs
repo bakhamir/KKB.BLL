@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKB.BLL.Model
+namespace KKB.DAL.Model
 {
-    internal class Adress
+    public class Adress
     {
         public int id { get; set; }
         public string country { get; set; }
