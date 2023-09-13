@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace KKB.BLL.Model
 {
-    //регистрация
-    //авторизация
-    //изменение данных
+    internal class ClientService
+    {
+                public bool registerClient(Client client)
+        {
+            return true;
+        }
+        public void authoriseClient(string mail,string password)
+    }
 }
