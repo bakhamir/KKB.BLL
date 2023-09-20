@@ -9,20 +9,30 @@ namespace KKB.DAL.Model
     public class Account
     {
         public int Id { get; set; }
-        public DateTime createDate { get; set; }
-        public double balance { get; set; }
-        public int currency { get; set; }
-        public int limits { get; set; }
-        public DateTime expiration { get; set; }
-        public DateTime received { get; set; }
-        public bool status {get; set; }
-        public bool debitOrCredit { get; set; }
-        public string IBAN { get; set; }
+        public double Balance { get; set; }
+        public int Currence { get; set; }
+        public double Limit { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime ExpireDate { get; set; }
+        public bool Status { get; set; } = true;
+        public int TypeCard { get; set; } //debit - credit
+        public string IBAN { get; set; } //KZ05403542054C854
 
-        public double daysRemain { get
+
+        public double DaysRemain
+        {
+            get
             {
-                return (expiration - received).TotalDays;
-            }}
+                return (ExpireDate - CreateDate).TotalDays;
+            }
+        }
 
+        public bool IdActive
+        {
+            get
+            {
+                return Status;
+            }
+        }
     }
 }

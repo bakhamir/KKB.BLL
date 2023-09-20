@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{83641C9D-066F-4085-BBF4-54EDC9A7AA28}</ProjectGuid>
+    <ProjectGuid>{E6C4B6BA-7DAE-4951-B167-0F11C543DF8C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KKB.DAL</RootNamespace>
@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Account.cs" />
-    <Compile Include="Model\Adress.cs" />
+    <Compile Include="Model\Address.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

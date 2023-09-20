@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{93B55B09-433D-4FD6-A634-8BB4382685DC}</ProjectGuid>
+    <ProjectGuid>{B064C558-DCF5-4443-9CAE-753506DF8A73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KKB.BLL</RootNamespace>
@@ -44,14 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\ClientService.cs" />
+    <Compile Include="Model\ServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KKB.DAL\KKB.DAL.csproj">
-      <Project>{83641c9d-066f-4085-bbf4-54edc9a7aa28}</Project>
+      <Project>{e6c4b6ba-7dae-4951-b167-0f11c543df8c}</Project>
       <Name>KKB.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

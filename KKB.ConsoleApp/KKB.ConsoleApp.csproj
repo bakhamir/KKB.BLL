@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D081743E-6641-4541-8387-E4B67EA624F3}</ProjectGuid>
+    <ProjectGuid>{96D63CD5-FC2A-49DD-995A-D83FE04EAE1F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>KKB.ConsoleApp</RootNamespace>
     <AssemblyName>KKB.ConsoleApp</AssemblyName>
@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuAction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,11 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KKB.BLL\KKB.BLL.csproj">
-      <Project>{93b55b09-433d-4fd6-a634-8bb4382685dc}</Project>
+      <Project>{b064c558-dcf5-4443-9cae-753506df8a73}</Project>
       <Name>KKB.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\KKB.DAL\KKB.DAL.csproj">
-      <Project>{83641c9d-066f-4085-bbf4-54edc9a7aa28}</Project>
+      <Project>{e6c4b6ba-7dae-4951-b167-0f11c543df8c}</Project>
       <Name>KKB.DAL</Name>
     </ProjectReference>
   </ItemGroup>

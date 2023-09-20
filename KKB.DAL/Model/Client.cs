@@ -8,24 +8,43 @@ namespace KKB.DAL.Model
 {
     public class Client
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        public int Id { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public string surname { get; set; }
-        public string fatherName { get; set; }
-        public DateTime created { get; set; }
+        /// <summary>
+        /// Имя
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Фамилия
+        /// </summary>
+        public string SurName { get; set; }
+        /// <summary>
+        /// Отчество
+        /// </summary>
+        public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Дата рождения
+        /// </summary>
+        public DateTime Dob { get; set; }
+        /// <summary>
+        /// Возраст клиента
+        /// </summary>
         public int GetAge
         {
             get
             {
-                return DateTime.Now.Year - created.Year;
+                return DateTime.Now.Year - Dob.Year;
             }
         }
-        public string number { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public int gender { get; set; }
-        public Adress[] Adress { get; set; }
-        public Account[] account { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public int Gender { get; set; }
+
+        public string Password { get; set; }
+
+        public Address[] Address { get; set; }
+        public Account[] Account { get; set; }
     }
 }

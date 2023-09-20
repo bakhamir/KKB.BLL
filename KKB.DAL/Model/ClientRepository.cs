@@ -9,44 +9,114 @@ namespace KKB.DAL.Model
 {
     public class ClientRepository
     {
-        //C:\Temp|MyData.db
         readonly string connectionString = "";
         public ClientRepository(string connectionString)
         {
-
             this.connectionString = connectionString;
         }
-        public List<Client> GetAllClients()
+
+        public List<Client> GetAllClients(out string message)
         {
-            List<Client> clients = new List<Client>();
-            using (var db = new LiteDatabase(connectionString))
+            List<Client> clients = null;
+            message = "";
+
+            try
             {
-                 clients = db.GetCollection<Client>("Client").FindAll().ToList();
+                using (var db = new LiteDatabase(connectionString))
+                {
+                        clients = db.GetCollection<Client>("Client")
+                      .FindAll()
+                      .ToList();                                  
+                }
             }
+            catch (ArgumentNullException ae)
+            {
+                message = ae.Message;
+            }           
+            catch
+               when(string.IsNullOrWhiteSpace(connectionString))
+            {
+                message = "Строка подключения к БД не корректна";
+            }
+            catch (Exception myError)
+            {
+                message = myError.Message;
+            }
+            finally
+            {
+               // db.Dispose();
+            }
+
             return clients;
         }
-        /// <summary>
-        /// Метод который вощвращает есть ли клиент
-        /// </summary>
-        /// <param name="Mail"> Адресс электронной почты</param>
-        /// <param name="Password"> Пароль </param>
-        /// <returns></returns>
-        public Client getClientData(string Mail,string Password)
-        {
-            List<Client> data = GetAllClients();
 
-            //LINQ
-            var client = data.FirstOrDefault(a => a.password == Password && a.email == Mail);
+        /// <summary>
+        /// Метод который возвращает есть ли клиент по Email и Password
+        /// </summary>
+        /// <param name="Email">Электроный адрес</param>
+        /// <param name="Password">Пароль</param>
+        /// <returns></returns>
+        public Client GetClientData(string Email, string Password)
+        {
+            try
+            {
+                string message = "";
+                List<Client> data = GetAllClients(out message);
+
+                if (!string.IsNullOrWhiteSpace(message))
+                    throw new ArgumentException(message);
+
+                var client = data
+                    .FirstOrDefault(a => a.Email == Email
+                    && a.Password == Password);
+
+                return client;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        /// <summary>
+        /// Метод который создает пользователя
+        /// </summary>
+        /// <param name="client">Данные пользователя</param>
+        /// <returns></returns>
+        public Client CreateClient(Client client)
+        {
+            try
+            {
+                using (var db = new LiteDatabase(connectionString))
+                {
+                    var clients = db.GetCollection<Client>("Client");
+
+                    clients.Insert(client);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return client;
         }
-        public bool createClient(Client client)
+        public bool UpdateClient(Client client)
         {
-            using (var db = new LiteDatabase(connectionString))
+            try
             {
-                var clients = db.GetCollection<Client>("Client");
-                clients.Insert(client);
+                using (var db = new LiteDatabase(connectionString))
+                {
+                    var clients = db.GetCollection<Client>("Client");
+                    clients.Update(client);
+                    return true;
+                }
             }
-            return true;
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
