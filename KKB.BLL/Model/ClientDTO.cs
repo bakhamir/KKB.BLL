@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KKB.DAL.Model
+namespace KKB.BLL.Model
 {
-    public class Client
+    public class ClientDTO
     {
         public int Id { get; set; }
         public DateTime CreateDate { get; set; }
@@ -44,7 +44,7 @@ namespace KKB.DAL.Model
 
         public string Password { get; set; }
 
-        public List<Address> Address { get; set; }
-        public List<Account> Account { get; set; }
+        public List<AddressDTO> Address { get; set; }
+        public List<AccountDTO> Account { get; set; }
     }
 }

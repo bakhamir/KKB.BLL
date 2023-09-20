@@ -57,10 +57,6 @@
       <Project>{b064c558-dcf5-4443-9cae-753506df8a73}</Project>
       <Name>KKB.BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KKB.DAL\KKB.DAL.csproj">
-      <Project>{e6c4b6ba-7dae-4951-b167-0f11c543df8c}</Project>
-      <Name>KKB.DAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

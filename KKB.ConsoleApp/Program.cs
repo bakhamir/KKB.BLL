@@ -1,4 +1,4 @@
-﻿using KKB.DAL.Model;
+﻿using KKB.BLL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
