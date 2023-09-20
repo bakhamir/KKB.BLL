@@ -10,6 +10,7 @@ namespace KKB.BLL.Model
     {
         public int Id { get; set; }
         public double Balance { get; set; }
+        public int Clientid { get; set; }
         public int Currence { get; set; }
         public double Limit { get; set; }
         public DateTime CreateDate { get; set; }

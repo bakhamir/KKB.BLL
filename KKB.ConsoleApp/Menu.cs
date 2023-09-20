@@ -52,6 +52,31 @@ namespace KKB.ConsoleApp
             Console.Clear();
             Console.WriteLine("Добро пожаловать {0} {1}",client.Name,client.SurName);
             Console.WriteLine("Ваши счета: ...");
+            Console.WriteLine("Хотите открыть новый счет ? да/нет: ");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "да":
+                    {
+                        Random rand = new Random();
+                        AccountDTO account = new AccountDTO();
+                        account.Balance = 0;
+                        account.Currence = 398;
+                        account.CreateDate = DateTime.Now;
+                        account.ExpireDate = account.CreateDate.AddYears(15);
+                        account.TypeCard = 1;
+                        account.IBAN = "KZ" + rand.Next(1,100);
+                        account.Clientid = client.Id;
+                        break;
+                    }
+                case "нет":
+                    {
+                        Environment.Exit(0);
+                        break;
+                    }
+
+            }
+            menuAction.ShowAccount(client.Id);
         }
     }
 }

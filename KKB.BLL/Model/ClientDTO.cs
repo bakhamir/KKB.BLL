@@ -24,6 +24,21 @@ namespace KKB.BLL.Model
         /// </summary>
         public string MiddleName { get; set; }
 
+        public string ShortName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(MiddleName))
+                {
+                    return string.Format("{0} {1}. {2}.", Name, SurName[0], MiddleName[0]);
+                }
+                else
+                {
+                    string.Format("{0} {1}", Name, SurName[0]);
+                }
+                return null;
+            }
+        }
         /// <summary>
         /// Дата рождения
         /// </summary>

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\AccountRepository.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ClientRepository.cs" />
