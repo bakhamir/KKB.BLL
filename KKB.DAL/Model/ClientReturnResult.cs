@@ -12,6 +12,7 @@ namespace KKB.DAL.Model
         public Client Client { get; set; }
         public bool IsError { get; set; } = false;
     }
+
     public class AccountReturnResult
     {
         public Exception Exception { get; set; }
