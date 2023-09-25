@@ -20,32 +20,12 @@ namespace KKB.DAL.Model
             List<Client> clients = null;
             message = "";
 
-            try
-            {
                 using (var db = new LiteDatabase(connectionString))
                 {
                         clients = db.GetCollection<Client>("Client")
                       .FindAll()
                       .ToList();                                  
                 }
-            }
-            catch (ArgumentNullException ae)
-            {
-                message = ae.Message;
-            }           
-            catch
-               when(string.IsNullOrWhiteSpace(connectionString))
-            {
-                message = "Строка подключения к БД не корректна";
-            }
-            catch (Exception myError)
-            {
-                message = myError.Message;
-            }
-            finally
-            {
-               // db.Dispose();
-            }
 
             return clients;
         }
@@ -53,8 +33,8 @@ namespace KKB.DAL.Model
         /// <summary>
         /// Метод который возвращает есть ли клиент по Email и Password
         /// </summary>
-        /// <param name="Email">Электроный адрес</param>
-        /// <param name="Password">Пароль</param>
+        /// <param /*name="Emai*/l">Электроный адрес</param>
+        /// <param /*name="Password*/">Пароль</param>
         /// <returns></returns>
         public Client GetClientData(string Email, string Password)
         {
@@ -66,15 +46,12 @@ namespace KKB.DAL.Model
                 if (!string.IsNullOrWhiteSpace(message))
                     throw new ArgumentException(message);
 
-                var client = data
-                    .FirstOrDefault(a => a.Email == Email
-                    && a.Password == Password);
+                var client = data.FirstOrDefault(a => a.Email == Email&& a.Password == Password);
 
                 return client;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 

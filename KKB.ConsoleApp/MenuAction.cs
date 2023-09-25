@@ -86,19 +86,26 @@ namespace KKB.ConsoleApp
         {
             ServiceAccount srvc = new ServiceAccount(path);
             var data = srvc.GetAccounts(clientid);
+
             Console.WriteLine( "{0}",data.accounts);
-            foreach (AccountDTO account in data.accounts)
+            foreach (AccountDTO acc in data.accounts)
             {
-                Console.WriteLine("{0} {1} {2} {3} {4}",account.Balance,account.Id,account.TypeCard,account.Currence,account.CreateDate);
+                Console.WriteLine("{0} {1} {2} {3} {4}",acc.Balance,acc.Id,acc.TypeCard,acc.Currence,acc.CreateDate);
+            }
+            Console.WriteLine("-------------------------------------------------------");
+            Console.WriteLine("Выберите счет");
+
+            int selectAccount = Int32.Parse(Console.ReadLine());
+            var account = srvc.GetAccount(selectAccount);
+            if (data.accounts == null)
+            {
+                Console.Clear();
+                Console.WriteLine("{0}",account.IBAN);
+                Console.WriteLine("{0}", account.Id);
+                Console.WriteLine("{0}", account.Balance);
+                Console.WriteLine("{0}", account.CreateDate);
             }
         }
-        //public Account GetAccount(ClientDTO client)
-        //{
-        //    ClientDTO clent = new ClientDTO();
-        //    Account account = new Account();
-        //    clent.Account.Append(account);
-        //    account.Balance = 123;
-        //    return null;
-        //}
+
     }
 }

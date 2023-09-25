@@ -48,7 +48,7 @@ namespace KKB.BLL.Model
             try
             {
                 var _client = repo.GetClientData(Email, Password);
-                client = imapper.Map<ClientDTO>(client);
+                client = imapper.Map<ClientDTO>(_client);
             }
             catch
             {

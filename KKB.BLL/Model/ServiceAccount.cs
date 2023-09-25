@@ -47,7 +47,9 @@ namespace KKB.BLL.Model
             }
             return totalbalance.Balance;
         }
-
-
+        public AccountDTO GetAccount(int accountid)
+        {
+            return Mapper.Map<AccountDTO>(repo.GetAccountById(accountid));
+        }
     }
 }

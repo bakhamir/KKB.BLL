@@ -1,5 +1,6 @@
 ﻿using KKB.BLL.Model;
 using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,10 @@ namespace KKB.ConsoleApp
         }
         public static void SecondMenu(ClientDTO client)
         {
-            MenuAction menuAction = new MenuAction();
+
+            string path = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        
+        MenuAction menuAction = new MenuAction();
             Console.Clear();
             Console.WriteLine("Добро пожаловать {0} {1}",client.Name,client.SurName);
             Console.WriteLine("Ваши счета: ...");
@@ -67,6 +71,12 @@ namespace KKB.ConsoleApp
                         account.TypeCard = 1;
                         account.IBAN = "KZ" + rand.Next(1,100);
                         account.Clientid = client.Id;
+                        ServiceAccount accs = new ServiceAccount(path);
+                        var result = accs.createAccountClient(account);
+                        if (!result.result)
+                        {
+                            Console.WriteLine("errorror");
+                        }
                         break;
                     }
                 case "нет":

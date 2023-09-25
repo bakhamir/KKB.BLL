@@ -51,5 +51,33 @@ namespace KKB.DAL.Model
             }
             return result;
         }
+        public List<Account> GetAccountById(int account)
+        {
+            using (var db = new LiteDatabase(connectionString))
+            {
+                var accounts = db.GetCollection<Account>("Account").FindAll().ToList();
+                return accounts;
+            }
+
+        }
+        public AccountReturnResult Pay(Account account,double val)
+        {
+            AccountReturnResult result = new AccountReturnResult();
+            try
+            {
+                
+                using (var db = new LiteDatabase(connectionString))
+                {
+                    var accounts = db.GetCollection<Account>("Account");
+                    accounts.Update(account);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.IsError = true;
+                result.Exception = ex;
+            }
+            return result;
+        }
     }
 }
