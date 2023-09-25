@@ -36,5 +36,18 @@ namespace KKB.BLL.Model
             var result = repo.CreateAccount(imapper.Map<Account>(account));
             return (result.IsError, result?.Exception.Message);
         }
+        public double getAccountBalance(int clientId)
+        {
+            double balance = 0;
+            GetAccounts(0);
+            AccountDTO totalbalance = null;
+            foreach (AccountDTO acc in GetAccounts(clientId).accounts)
+            {
+                totalbalance = acc + totalbalance;
+            }
+            return totalbalance.Balance;
+        }
+
+
     }
 }
