@@ -38,7 +38,7 @@ namespace KKB.BLL.Model
         /// <param name="Email"></param>
         /// <param name="Password"></param>
         /// <returns></returns>
-        public ClientDTO AuthorizeClient(string Email, string Password)
+        public IClientDTOshort AuthorizeClient(string Email, string Password)
         {
 
             try

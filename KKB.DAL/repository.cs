@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KKB.DAL.Interfaces
+using KKB.DAL.Interfaces;
 namespace KKB.DAL.Model
 {
     public class repository<T> : IRepository<T>

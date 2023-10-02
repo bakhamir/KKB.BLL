@@ -11,5 +11,7 @@ namespace KKB.DAL.Interfaces
     {
         ReturnResult<T> Get();
         ReturnResult<T> Create(T data);
+        ReturnResult<T> Update(T data);
+        ReturnResult<T> GetDataByID(int id);
     }
 }
