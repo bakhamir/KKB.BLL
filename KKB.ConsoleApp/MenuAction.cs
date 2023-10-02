@@ -1,11 +1,6 @@
 ﻿using KKB.BLL.Model;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KKB.ConsoleApp
 {
@@ -18,7 +13,7 @@ namespace KKB.ConsoleApp
             path = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         }
 
-        public void Register()
+        public bool Register()
         {
             ClientDTO client = new ClientDTO();
 
@@ -38,12 +33,14 @@ namespace KKB.ConsoleApp
             client.PhoneNumber = Console.ReadLine();
 
             Console.Write("Password: ");
+
             client.Password = Console.ReadLine();
             KKB.BLL.Model.ServiceClient service =
                 new BLL.Model.ServiceClient(path);
 
-            service.RegsterClient(client);
+            return service.RegsterClient(client);
         }
+
         public ClientDTO Auth()
         {
             Console.Write("email: ");
@@ -65,6 +62,7 @@ namespace KKB.ConsoleApp
             }
             return null;
         }
+
         public void UpdateClient(ClientDTO client)
         {
 
@@ -82,30 +80,39 @@ namespace KKB.ConsoleApp
                 Console.WriteLine("данные обновлены успешно");
             }
         }
-        public void ShowAccount(int clientid)
-        {
-            ServiceAccount srvc = new ServiceAccount(path);
-            var data = srvc.GetAccounts(clientid);
 
-            Console.WriteLine( "{0}",data.accounts);
+        public void ShowAccount(int clientId)
+        {
+            ServiceAccount service = new ServiceAccount(path);
+
+            var data = service.GetAllAccounts(clientId);
+            Console.WriteLine(": {0}", data.message);
+
             foreach (AccountDTO acc in data.accounts)
             {
-                Console.WriteLine("{0} {1} {2} {3} {4}",acc.Balance,acc.Id,acc.TypeCard,acc.Currence,acc.CreateDate);
+                Console.WriteLine("{0}. {1}\t{2} {3}",
+                    acc.Id,
+                    acc.IBAN,
+                    acc.Balance,
+                    acc.Currence);
             }
-            Console.WriteLine("-------------------------------------------------------");
-            Console.WriteLine("Выберите счет");
+            Console.WriteLine("-------------------");
+            Console.Write("Выберете счет: ");
+            int selectedAccount = Int32.Parse(Console.ReadLine());
 
-            int selectAccount = Int32.Parse(Console.ReadLine());
-            var account = srvc.GetAccount(selectAccount);
-            if (data.accounts == null)
+            var account = service.GetAccount(selectedAccount);
+            if(account!=null)
             {
                 Console.Clear();
-                Console.WriteLine("{0}",account.IBAN);
-                Console.WriteLine("{0}", account.Id);
-                Console.WriteLine("{0}", account.Balance);
-                Console.WriteLine("{0}", account.CreateDate);
+                Console.WriteLine("{0}", account.IBAN);
+                Console.WriteLine("от {0:dd.MM.yyyy}", account.CreateDate);
+                Console.WriteLine("баланс {0}", account.Balance);
+
+                Console.WriteLine("Выберите действие:");
+                Console.WriteLine("1. Пополнить");
+                Console.WriteLine("2. Перевести");
+                Console.WriteLine("3. Выписка");
             }
         }
-
     }
 }

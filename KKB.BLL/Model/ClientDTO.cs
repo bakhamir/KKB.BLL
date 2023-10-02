@@ -30,15 +30,16 @@ namespace KKB.BLL.Model
             {
                 if (!string.IsNullOrWhiteSpace(MiddleName))
                 {
-                    return string.Format("{0} {1}. {2}.", Name, SurName[0], MiddleName[0]);
+                    return string.Format("{0} {1}. {2}.",
+                        Name, SurName[0], MiddleName[0]);
                 }
                 else
                 {
-                    string.Format("{0} {1}", Name, SurName[0]);
+                    return string.Format("{0} {1}.", Name, SurName[0]);
                 }
-                return null;
             }
         }
+
         /// <summary>
         /// Дата рождения
         /// </summary>

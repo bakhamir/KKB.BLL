@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using KKB.DAL.Model;
+using KKB.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,46 +12,64 @@ namespace KKB.BLL.Model
 {
     public class ServiceAccount
     {
-        private AccountRepository repo = null;
-        private readonly IMapper imapper;
+        private readonly IRepository<Account> repo = null;
+        private readonly IMapper iMapper;
+
         public ServiceAccount(string connectionString)
         {
-            repo = new AccountRepository(connectionString);
-            imapper = BllSettings.Init().CreateMapper();
+            repo = new repository<Account>(connectionString);
+            iMapper = BLLSettings.Init().CreateMapper();
         }
-        public (string message , List<AccountDTO> accounts) GetAccounts(int clientid)
-        {
-            var result = repo.GetAccounts();
-            return (result.Exception.Message,imapper.Map<List<AccountDTO>>(result.Accounts));
-            //if (result.IsError)
-            //{
 
-            //    return (result.Exception.Message,null);
-            //}
-            //else
-            //{
-            //    return ("",imapper.Map<List<AccountDTO>>(result.Accounts));
-            //}
-        }
-        public (bool result, string message) createAccountClient(AccountDTO account)
+        /// <summary>
+        /// Метод возвращает список счетов пользователя
+        /// </summary>
+        /// <returns></returns>
+        public (string message, List<AccountDTO> accounts) GetAllAccounts(int clientId)
         {
-            var result = repo.CreateAccount(imapper.Map<Account>(account));
-            return (result.IsError, result?.Exception.Message);
+            var result = repo.Get();
+            return ((result.IsError==true) ? result.Exception.Message : "", 
+                iMapper.Map<List<AccountDTO>>(result.Datas.Where(w=>w.ClientId.Equals(clientId))));
         }
-        public double getAccountBalance(int clientId)
+
+        //public double GetAccountBalance(int clientId)
+        //{
+        //    AccountDTO totalBalance = null;
+        //    foreach (AccountDTO acc in GetAllAccounts(clientId).accounts)
+        //    {
+        //        totalBalance = acc + totalBalance;
+        //    }
+
+        //    return totalBalance.Balance;
+        //}
+
+        //public static void Exmpl01()
+        //{
+        //    AccountDTO acc1 = new AccountDTO(1, 1000);
+        //    AccountDTO acc2 = new AccountDTO(1, 2000);
+        //    AccountDTO acc3 = new AccountDTO(3, 1000);
+
+        //    var result = acc1 + acc2;
+        //    var result2 = acc2 + acc3;
+        //}
+
+        public (bool result, string message) CreateAccountClient(AccountDTO account)
         {
-            double balance = 0;
-            GetAccounts(0);
-            AccountDTO totalbalance = null;
-            foreach (AccountDTO acc in GetAccounts(clientId).accounts)
-            {
-                totalbalance = acc + totalbalance;
-            }
-            return totalbalance.Balance;
+            var result = repo.Create(iMapper.Map<Account>(account));
+
+            //return (result.IsError, result?.Exception.Message);
+            return (result.IsError, result.Exception!=null ?
+                result.Exception.Message : "");
         }
-        public AccountDTO GetAccount(int accountid)
+
+        /// <summary>
+        /// Метод который возвращает информацию по счету
+        /// </summary>
+        /// <param name="accountId">ID счета</param>
+        /// <returns></returns>
+        public AccountDTO GetAccount(int accountId)
         {
-            return Mapper.Map<AccountDTO>(repo.GetAccountById(accountid));
+            return iMapper.Map<AccountDTO>(repo.GetDataByID(accountId).Datas);
         }
     }
 }

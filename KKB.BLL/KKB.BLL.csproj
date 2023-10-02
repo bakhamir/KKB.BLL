@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BllSettings.cs" />
+    <Compile Include="BLLSettings.cs" />
     <Compile Include="Model\AccountDTO.cs" />
     <Compile Include="Model\AddressDTO.cs" />
     <Compile Include="Model\ClientDTO.cs" />
@@ -57,13 +57,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\KKB.DAL\KKB.DAL.csproj">
       <Project>{e6c4b6ba-7dae-4951-b167-0f11c543df8c}</Project>
       <Name>KKB.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

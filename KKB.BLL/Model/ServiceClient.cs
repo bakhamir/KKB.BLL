@@ -5,16 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using KKB.DAL.Interfaces;
+
 namespace KKB.BLL.Model
 {
     public class ServiceClient
     {
-        private ClientRepository repo = null;
-        private readonly IMapper imapper;
+        private readonly IRepository<Client> repo = null;
+        private readonly IMapper iMapper;
+
         public ServiceClient(string connectionString)
         {
-            repo = new ClientRepository(connectionString);
-            imapper = BllSettings.Init().CreateMapper();
+            repo = new repository<Client>(connectionString);
+            iMapper = BLLSettings.Init().CreateMapper();
         }
 
         /// <summary>
@@ -22,18 +25,11 @@ namespace KKB.BLL.Model
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        public bool RegsterClient(ClientDTO  client)
+        public bool RegsterClient(ClientDTO client)
         {
-            try
-            {
-                repo.CreateClient(imapper.Map<Client>(client));
-            }
-            catch
-            {
-
-                throw new ArgumentException("ВОЗНИКЛА ОШИБКА ПОВТОРИТЕ ПОЗЖЕ");
-            }
-            return true;
+            ReturnResult<Client> result = new ReturnResult<Client>();
+            repo.Create(iMapper.Map<Client>(client));
+            return result.IsError;
         }
 
         /// <summary>
@@ -42,20 +38,26 @@ namespace KKB.BLL.Model
         /// <param name="Email"></param>
         /// <param name="Password"></param>
         /// <returns></returns>
-        public ClientDTO  AuthorizeClient(string Email, string Password)
+        public ClientDTO AuthorizeClient(string Email, string Password)
         {
-            ClientDTO  client = null;
+
             try
             {
-                var _client = repo.GetClientData(Email, Password);
-                client = imapper.Map<ClientDTO>(_client);
+                ReturnResult<Client> result = new ReturnResult<Client>();
+                //var _client = repo.GetClientData(Email, Password);
+                //client = iMapper.Map<ClientDTO>(_client);
+                var clients = repo.Get();
+                if (result.IsError)
+                {
+                    throw new ArgumentException("ERROR");
+                }
+                var clientt = result.Datas.FirstOrDefault(f => f.Email == f.Email && f.Password == Password);
+                return iMapper.Map<ClientDTO>(clientt);
             }
             catch
             {
                 throw new ArgumentException("Воникла ошибка, попробуйте позже");
-            }          
-
-            return client;
+            }
         }
 
         /// <summary>
@@ -63,18 +65,14 @@ namespace KKB.BLL.Model
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        public bool UpdateClient(ClientDTO  client)
+        public bool UpdateClient(ClientDTO client)
         {
-            try
-            {
-                return repo.UpdateClient(imapper.Map<Client>(client));
-            }
-            catch
-            {
-                return false;
-            }
+            ReturnResult<Client> result = new ReturnResult<Client>();
+            result = repo.Update(iMapper.Map<Client>(client));
+
+            return result.IsError;
+
+
         }
-
-
     }
 }

@@ -1,20 +1,24 @@
-﻿using KKB.BLL.Model;
-using System;
+﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KKB.BLL.Model;
 
 namespace KKB.ConsoleApp
 {
     public static class Menu
     {
+        static string path = "";
+
+        static Menu()
+        {
+            path = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        }
+
         public static void FirstMenu()
         {
             MenuAction menuAction = new MenuAction();
 
             Console.WriteLine("Добро пожаловать!");
+
             Console.WriteLine("1. Авторизация");
             Console.WriteLine("2. Регистрация");
             Console.WriteLine("3. Выход");
@@ -34,30 +38,42 @@ namespace KKB.ConsoleApp
                         }
                         else
                         {
-                            //Console.WriteLine("Авторизация успешна!");
                             SecondMenu(clent);
                         }
                         break;
                     }
                 case 2:
-                    Console.Clear();
-                    menuAction.Register();
-                    break;
-                default: Environment.Exit(0);
+                    {
+                        Console.Clear();
+                        Console.WriteLine("- Регистрация пользователя -");
+                        if (menuAction.Register())
+                        {
+                            Console.Clear();
+                            FirstMenu();
+                        }
+                        break;
+                    }
+                default:
+                    Environment.Exit(0);
                     break;
             }
         }
+
         public static void SecondMenu(ClientDTO client)
         {
-
-            string path = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        
-        MenuAction menuAction = new MenuAction();
+            MenuAction menuAction = new MenuAction();
             Console.Clear();
-            Console.WriteLine("Добро пожаловать {0} {1}",client.Name,client.SurName);
+
+            Console.WriteLine("Добро пожаловать {0}", client.ShortName);
+
             Console.WriteLine("Ваши счета: ...");
-            Console.WriteLine("Хотите открыть новый счет ? да/нет: ");
+            menuAction.ShowAccount(client.Id);
+            Console.WriteLine("");
+
+            Console.WriteLine("---------------------||----------------");
+            Console.Write("Хотите открыть новый счет да/нет: ");
             string choice = Console.ReadLine();
+
             switch (choice)
             {
                 case "да":
@@ -69,25 +85,19 @@ namespace KKB.ConsoleApp
                         account.CreateDate = DateTime.Now;
                         account.ExpireDate = account.CreateDate.AddYears(15);
                         account.TypeCard = 1;
-                        account.IBAN = "KZ" + rand.Next(1,100);
-                        account.Clientid = client.Id;
-                        ServiceAccount accs = new ServiceAccount(path);
-                        var result = accs.createAccountClient(account);
-                        if (!result.result)
-                        {
-                            Console.WriteLine("errorror");
-                        }
-                        break;
-                    }
-                case "нет":
-                    {
-                        Environment.Exit(0);
-                        break;
-                    }
+                        account.IBAN = "KZ" + rand.Next(100, 999);
+                        account.ClientId = client.Id;
 
+                        ServiceAccount service = new ServiceAccount(path);
+                        var result = service.CreateAccountClient(account);
+
+                        if (result.result)
+                            Console.WriteLine(result.message);
+                        else
+                            SecondMenu(client);
+                        break;
+                    }
             }
-            menuAction.ShowAccount(client.Id);
         }
     }
 }
-//
