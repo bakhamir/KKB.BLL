@@ -11,14 +11,9 @@ namespace KKB.BLL
 {
     public static class BLLSettings
     {
-        public static MapperConfiguration Init()
-        {
-            return new MapperConfiguration(
-                 cfg =>
-                 {
-                     cfg.CreateMap<Client, ClientDTO>().ReverseMap();
-                     cfg.CreateMap<Account, AccountDTO>().ReverseMap();
-                 });
-        }
+        //public static MapperConfiguration Init()
+        //{
+        //    return 
+        //}
     }
 }

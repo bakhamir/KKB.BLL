@@ -11,15 +11,14 @@ using System.Threading.Tasks;
 
 namespace KKB.BLL.Model
 {
-    public class ServiceAccount
+    public class ServiceAccount : service<Account>
     {
-        private readonly IRepository<Account> repo = null;
-        private readonly IMapper iMapper;
+        //private readonly IRepository<Account> repo = null;
+        //private readonly IMapper iMapper;
 
-        public ServiceAccount(string connectionString)
+        public ServiceAccount(string connectionString) : base(connectionString)
         {
-            repo = new Repository<Account>(connectionString);
-            iMapper = BLLSettings.Init().CreateMapper();
+
         }
 
         /// <summary>

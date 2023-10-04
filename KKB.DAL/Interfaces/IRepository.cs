@@ -13,5 +13,6 @@ namespace KKB.DAL.Interfaces
         ReturnResult<T> Create(T data);
         ReturnResult<T> Update(T data);
         ReturnResult<T> GetData(int Id);
+
     }
 }
