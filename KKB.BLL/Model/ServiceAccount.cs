@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using KKB.DAL.Model;
+using KKB.DAL;
 using KKB.DAL.Interfaces;
+using KKB.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace KKB.BLL.Model
 
         public ServiceAccount(string connectionString)
         {
-            repo = new repository<Account>(connectionString);
+            repo = new Repository<Account>(connectionString);
             iMapper = BLLSettings.Init().CreateMapper();
         }
 
@@ -28,8 +29,10 @@ namespace KKB.BLL.Model
         public (string message, List<AccountDTO> accounts) GetAllAccounts(int clientId)
         {
             var result = repo.Get();
+  
             return ((result.IsError==true) ? result.Exception.Message : "", 
-                iMapper.Map<List<AccountDTO>>(result.Datas.Where(w=>w.ClientId.Equals(clientId))));
+                iMapper.Map<List<AccountDTO>>(result
+                                               .Datas.Where(w => w.ClientId.Equals(clientId))));
         }
 
         //public double GetAccountBalance(int clientId)
@@ -57,7 +60,6 @@ namespace KKB.BLL.Model
         {
             var result = repo.Create(iMapper.Map<Account>(account));
 
-            //return (result.IsError, result?.Exception.Message);
             return (result.IsError, result.Exception!=null ?
                 result.Exception.Message : "");
         }
@@ -69,7 +71,7 @@ namespace KKB.BLL.Model
         /// <returns></returns>
         public AccountDTO GetAccount(int accountId)
         {
-            return iMapper.Map<AccountDTO>(repo.GetDataByID(accountId).Datas);
+            return iMapper.Map<AccountDTO>(repo.GetData(accountId).Datas);
         }
     }
 }

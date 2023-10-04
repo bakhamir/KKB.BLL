@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using KKB.DAL;
 using KKB.DAL.Interfaces;
 
 namespace KKB.BLL.Model
@@ -12,11 +13,11 @@ namespace KKB.BLL.Model
     public class ServiceClient
     {
         private readonly IRepository<Client> repo = null;
-        private readonly IMapper iMapper;
+        private readonly IMapper iMapper = null;
 
         public ServiceClient(string connectionString)
         {
-            repo = new repository<Client>(connectionString);
+            repo = new Repository<Client>(connectionString);
             iMapper = BLLSettings.Init().CreateMapper();
         }
 
@@ -28,8 +29,10 @@ namespace KKB.BLL.Model
         public bool RegsterClient(ClientDTO client)
         {
             ReturnResult<Client> result = new ReturnResult<Client>();
-            repo.Create(iMapper.Map<Client>(client));
-            return result.IsError;
+
+            result = repo.Create(iMapper.Map<Client>(client));
+
+            return !result.IsError;
         }
 
         /// <summary>
@@ -38,26 +41,20 @@ namespace KKB.BLL.Model
         /// <param name="Email"></param>
         /// <param name="Password"></param>
         /// <returns></returns>
-        public IClientDTOshort AuthorizeClient(string Email, string Password)
+        public IClientDTOShort AuthorizeClient(string Email, string Password)
         {
+            ReturnResult<Client> result = new ReturnResult<Client>();
 
-            try
-            {
-                ReturnResult<Client> result = new ReturnResult<Client>();
-                //var _client = repo.GetClientData(Email, Password);
-                //client = iMapper.Map<ClientDTO>(_client);
-                var clients = repo.Get();
-                if (result.IsError)
-                {
-                    throw new ArgumentException("ERROR");
-                }
-                var clientt = result.Datas.FirstOrDefault(f => f.Email == f.Email && f.Password == Password);
-                return iMapper.Map<ClientDTO>(clientt);
-            }
-            catch
-            {
+            //вернул всех клиентов
+            result = repo.Get();
+            if (result.IsError)
                 throw new ArgumentException("Воникла ошибка, попробуйте позже");
-            }
+
+            var client = result.Datas
+                .FirstOrDefault(f => f.Email == Email
+                                  && f.Password == Password);
+
+            return iMapper.Map<ClientDTO>(client);
         }
 
         /// <summary>
@@ -68,11 +65,10 @@ namespace KKB.BLL.Model
         public bool UpdateClient(ClientDTO client)
         {
             ReturnResult<Client> result = new ReturnResult<Client>();
+
             result = repo.Update(iMapper.Map<Client>(client));
 
             return result.IsError;
-
-
         }
     }
 }

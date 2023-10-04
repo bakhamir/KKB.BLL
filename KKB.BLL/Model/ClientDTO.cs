@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KKB.BLL.Model
 {
-    public class ClientDTO : IClientDTOshort
+    public class ClientDTO: IClientDTOShort, IClientDTOAutInfo
     {
         public int Id { get; set; }
         public DateTime CreateDate { get; set; }
@@ -63,18 +63,19 @@ namespace KKB.BLL.Model
         public List<AddressDTO> Address { get; set; }
         public List<AccountDTO> Account { get; set; }
     }
-    public interface IClientDTOshort
-    {
-        public int Id { get; set; }
 
+    public interface IClientDTOShort
+    {
+        int Id { get; set; }
         string Name { get; set; }
-         string SurName { get; set; }
-
-         string MiddleName { get; set; }
+        string SurName { get; set; }
+        string MiddleName { get; set; }
     }
-    public interface IClientDTOauthInfo
+
+    public interface IClientDTOAutInfo
     {
-         string Password { get; set; }
-         string Email { get; set; }
+        string PhoneNumber { get; set; }
+        string Email { get; set; }
+        string Password { get; set; }
     }
 }

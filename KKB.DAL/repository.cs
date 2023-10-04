@@ -1,29 +1,32 @@
-﻿using System;
+﻿using KKB.DAL.Interfaces;
+using KKB.DAL.Model;
 using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KKB.DAL.Interfaces;
-namespace KKB.DAL.Model
+
+namespace KKB.DAL
 {
-    public class repository<T> : IRepository<T>
+    public class Repository<T> : IRepository<T> 
     {
         private readonly string connectionString = "";
-        public repository(string connectionString)
+        public Repository(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-        public ReturnResult <T>Get()
+        public ReturnResult<T> Get()
         {
             ReturnResult<T> result = new ReturnResult<T>();
             try
             {
-
                 using (var db = new LiteDatabase(connectionString))
                 {
-                         result.Datas = db.GetCollection<T>(typeof(T).Name).FindAll().ToList();
+                    result.Datas = db.GetCollection<T>(typeof(T).Name)
+                        .FindAll()
+                        .ToList();
                 }
             }
             catch (Exception ex)
@@ -34,12 +37,12 @@ namespace KKB.DAL.Model
 
             return result;
         }
-        public ReturnResult <T>Create(T data)
+
+        public ReturnResult<T> Create(T data)
         {
             ReturnResult<T> result = new ReturnResult<T>();
             try
             {
-
                 using (var db = new LiteDatabase(connectionString))
                 {
                     var accounts = db.GetCollection<T>(typeof(T).Name);
@@ -53,18 +56,17 @@ namespace KKB.DAL.Model
             }
             return result;
         }
-        public ReturnResult <T>Update(T data)
+
+        public ReturnResult<T> Update(T data)
         {
             ReturnResult<T> result = new ReturnResult<T>();
             try
             {
-
                 using (var db = new LiteDatabase(connectionString))
                 {
                     var clients = db.GetCollection<T>(typeof(T).Name);
                     result.IsError = clients.Update(data);
-
-                }//MoXnaTЫN BOP
+                }
             }
             catch (Exception ex)
             {
@@ -73,15 +75,15 @@ namespace KKB.DAL.Model
             }
             return result;
         }
-        public ReturnResult <T>GetDataByID(int id)
+
+        public ReturnResult<T> GetData(int Id)
         {
             ReturnResult<T> result = new ReturnResult<T>();
-
             try
             {
                 using (var db = new LiteDatabase(connectionString))
                 {
-                    result.Data = db.GetCollection<T>(typeof(T).Name).FindById(id);
+                    result.Data = db.GetCollection<T>(typeof(T).Name).FindById(Id);
                 }
             }
             catch (Exception ex)
@@ -89,8 +91,36 @@ namespace KKB.DAL.Model
                 result.IsError = true;
                 result.Exception = ex;
             }
-
             return result;
+        }
+    }
+
+    public class RepoToSQL<T> : IRepository<T>
+    {
+        private readonly string connectionString = "";
+        public RepoToSQL(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
+        public ReturnResult<T> Create(T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnResult<T> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnResult<T> GetData(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnResult<T> Update(T data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

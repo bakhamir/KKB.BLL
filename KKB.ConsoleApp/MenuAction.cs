@@ -41,7 +41,7 @@ namespace KKB.ConsoleApp
             return service.RegsterClient(client);
         }
 
-        public ClientDTO Auth()
+        public IClientDTOShort Auth()
         {
             Console.Write("email: ");
             string email = Console.ReadLine();
